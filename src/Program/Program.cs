@@ -12,7 +12,7 @@ using Full_GRASP_And_SOLID.Library;
 namespace Full_GRASP_And_SOLID
 {
     public class Program
-    {
+    { // Se utilizó patrón Expert en cada clase para asignar las nuevas funcionalidades necesitadas a su clase correspondiente
         private static ArrayList productCatalog = new ArrayList();
 
         private static ArrayList equipmentCatalog = new ArrayList();
@@ -23,29 +23,30 @@ namespace Full_GRASP_And_SOLID
 
             Recipe recipe = new Recipe();
             recipe.FinalProduct = GetProduct("Café con leche");
-            recipe.AddStep(new Step(GetProduct("Café"), 100, GetEquipment("Cafetera"), 120));
-            recipe.AddStep(new Step(GetProduct("Leche"), 200, GetEquipment("Hervidor"), 60));
+            recipe.AddStep(new Step(GetProduct("Café"), 0.100, 50, GetEquipment("Cafetera"), 0.25, 1000));
+            recipe.AddStep(new Step(GetProduct("Leche"), 0.200, 300, GetEquipment("Hervidor"), 0.25, 2000));
+            recipe.GetProductionCost(); // Se agrega un calculador de costo de la receta, el cual es un método de la clase Recipe
             recipe.PrintRecipe();
         }
 
-        private static void PopulateCatalogs()
+        private static void PopulateCatalogs() //A cada producto se le sumó la cantidad necesaria, en función de poder calcular el precio por las horas o cantidades utilizadas
         {
-            AddProductToCatalog("Café", 100);
-            AddProductToCatalog("Leche", 200);
-            AddProductToCatalog("Café con leche", 300);
+            AddProductToCatalog("Café", 100, 50);
+            AddProductToCatalog("Leche", 200, 300);
+            AddProductToCatalog("Café con leche", 300, 0);
 
-            AddEquipmentToCatalog("Cafetera", 1000);
-            AddEquipmentToCatalog("Hervidor", 2000);
+            AddEquipmentToCatalog("Cafetera", 1000, 0.25);
+            AddEquipmentToCatalog("Hervidor", 2000, 0.10);
         }
 
-        private static void AddProductToCatalog(string description, double unitCost)
+        private static void AddProductToCatalog(string description, double unitCost, double unities)
         {
-            productCatalog.Add(new Product(description, unitCost));
+            productCatalog.Add(new Product(description, unitCost, unities));
         }
 
-        private static void AddEquipmentToCatalog(string description, double hourlyCost)
+        private static void AddEquipmentToCatalog(string description, double hourlyCost, double hoursNeeded)
         {
-            equipmentCatalog.Add(new Equipment(description, hourlyCost));
+            equipmentCatalog.Add(new Equipment(description, hourlyCost, hoursNeeded));
         }
 
         private static Product ProductAt(int index)

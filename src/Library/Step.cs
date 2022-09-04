@@ -8,20 +8,22 @@ namespace Full_GRASP_And_SOLID.Library
 {
     public class Step
     {
-        public Step(Product input, double quantity, Equipment equipment, int time)
+        public Step(Product product, double quantity, int productCost, Equipment equipment, double time, int hourlyCost)
         {
             this.Quantity = quantity;
-            this.Input = input;
+            this.Product = product;
             this.Time = time;
             this.Equipment = equipment;
+            this.stepCost = (quantity*productCost) + (time*hourlyCost);
         }
 
-        public Product Input { get; set; }
+        public Product Product { get; set; }
 
         public double Quantity { get; set; }
 
-        public int Time { get; set; }
+        public double Time { get; set; }
 
         public Equipment Equipment { get; set; }
+        public double stepCost { get; set; } // Step es la clase experta en los costos de el step mencionado
     }
 }
